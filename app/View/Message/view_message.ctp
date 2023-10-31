@@ -20,7 +20,13 @@
                                     ));
                                 ?>
                                 <div class="media-body border border-dark mr-2">
-                                    <p class="ml-1 mt-1 mb-1 mr-1 text-justify"><?php echo $message['Message']['message'];?></p>
+                                    <?php if (strlen($message['Message']['message']) > 50):?>
+                                        <p class="ml-1 mt-1 mb-1 mr-1 text-justify" id="ellipsis"><?php echo substr($message['Message']['message'],0,50)."...";?></p>
+                                        <p class="ml-1 mt-1 mb-1 mr-1 text-justify" id="ellipsis-show" style="display: none;"><?php echo $message['Message']['message'];?></p>
+                                        <button class="btn btn-link text-center ellipsis-btn">Show More</button>
+                                    <?php else:?>
+                                        <p class="ml-1 mt-1 mb-1 mr-1 text-justify"><?php echo $message['Message']['message'];?></p>
+                                    <?php endif;?>
                                     <hr class="text-dark">
                                     <p class="text-right text-black-50 mx-2" style="font-size: 8px"><?php echo date('Y/m/d h:i',strtotime($message['Message']['create_date']));?></p>
                                 </div>
@@ -40,7 +46,13 @@
                                     </div>
                                 </div>
                                 <div class="media-body border border-dark ml-2">
-                                    <p class="ml-1 mt-1 mb-1 mr-1"><?php echo $message['Message']['message'];?></p>
+                                    <?php if (strlen($message['Message']['message']) > 50):?>
+                                        <p class="ml-1 mt-1 mb-1 mr-1 text-justify" id="ellipsis"><?php echo substr($message['Message']['message'],0,50)."...";?></p>
+                                        <p class="ml-1 mt-1 mb-1 mr-1 text-justify" id="ellipsis-show" style="display: none;"><?php echo $message['Message']['message'];?></p>
+                                        <button class="btn btn-link text-center ellipsis-btn">Show More</button>
+                                    <?php else:?>
+                                        <p class="ml-1 mt-1 mb-1 mr-1 text-justify"><?php echo $message['Message']['message'];?></p>
+                                    <?php endif;?>
                                     <hr class="text-dark">
                                     <p class="text-right text-black-50 mx-2" style="font-size: 8px"><?php echo date('Y/m/d h:i',strtotime($message['Message']['create_date']));?></p>
                                 </div>
@@ -103,6 +115,25 @@
             $('#messageInput').show();
         })
 
+        /* $(document).on('click', '.ellipsis-btn', function () {
+            $('#ellipsis').toggle();
+            $('#ellipsis-show').toggle();
+            var buttonText = $('#ellipsis-show').is(':visible') ? 'Show Less' : 'Show More';
+            $('.ellipsis-btn').text(buttonText);
+        }); */
+
+        $(document).on('click', '.ellipsis-btn', function () {
+            var $container = $(this).closest('.media');
+            var $ellipsis = $container.find('#ellipsis');
+            var $ellipsisShow = $container.find('#ellipsis-show');
+            
+            $ellipsis.toggle();
+            $ellipsisShow.toggle();
+            
+            var buttonText = $ellipsisShow.is(':visible') ? 'Show Less' : 'Show More';
+            $(this).text(buttonText);
+        });
+
         var page = 2; // Initial page (the second page, as the first page is already loaded)
         var loading = false; // To prevent multiple simultaneous requests
 
@@ -137,7 +168,13 @@
                                         <div class="media">
                                             <img src=" `+ baseUrl +`/`+ message.User.img +`" alt="Default Avatar" class="ml-2 mr-2 rounded-circle" width="64" height="64">
                                             <div class="media-body border border-dark mr-2">
-                                                <p class="ml-1 mt-1 mb-1 mr-1 text-justify">`+ message.Message.message +`</p>
+                                                    ${message.Message.message.length > 50 ? `
+                                                        <p class="ml-1 mt-1 mb-1 mr-1 text-justify" id="ellipsis">${message.Message.message.slice(0, 50)}...</p>
+                                                        <p class="ml-1 mt-1 mb-1 mr-1 text-justify" id="ellipsis-show" style="display:none;">`+ message.Message.message +`</p>
+                                                        <button class="btn btn-link text-center ellipsis-btn">Show More</button>
+                                                    ` : `
+                                                        <p class="ml-1 mt-1 mb-1 mr-1 text-justify">${message.Message.message}</p>
+                                                    `}
                                                 <hr class="text-dark">
                                                 <p class="text-right text-black-50 mx-2" style="font-size: 8px">
                                                     `+ moment(message.Message.create_date).format("YYYY/MM/DD H:mm") +` 
@@ -162,8 +199,14 @@
                                                 </div>
                                             </div>
                                             <div class="media-body border border-dark ml-2">
-                                                <p class="ml-1 mt-1 mb-1 mr-1 text-justify">`+ message.Message.message +`</p>
-                                                <hr class="text-dark">
+                                                    ${message.Message.message.length > 50 ? `
+                                                        <p class="ml-1 mt-1 mb-1 mr-1 text-justify" id="ellipsis">${message.Message.message.slice(0, 50)}...</p>
+                                                        <p class="ml-1 mt-1 mb-1 mr-1 text-justify" id="ellipsis-show" style="display:none;">`+ message.Message.message +`</p>
+                                                        <button class="btn btn-link text-center ellipsis-btn">Show More</button>
+                                                    ` : `
+                                                        <p class="ml-1 mt-1 mb-1 mr-1 text-justify">${message.Message.message}</p>
+                                                    `}
+                                                    <hr class="text-dark">
                                                 <p class="text-right text-black-50 mx-2" style="font-size: 8px">
                                                     `+ moment(message.Message.create_date).format("YYYY/MM/DD H:mm") +`
                                                 </p>
