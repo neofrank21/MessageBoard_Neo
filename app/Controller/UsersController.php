@@ -167,7 +167,7 @@ App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
                 $email = $formData['User']['email'];
                 $password = $formData['User']['password'];
                 if (empty($password)) {
-                    if ($this->User->saveField(array('email' => $email))) {
+                    if ($this->User->saveField('email', $email)) {
                         // Success Notification
                         $this->Flash->success('Profile Successfuly Updated', array(
                             'key' => 'positive',
@@ -181,7 +181,7 @@ App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
                         $this->redirect('profile');
                     }
                 } else if (empty($email)) {
-                    if ($this->User->saveField(array('password' => $password))) {
+                    if ($this->User->saveField('password', $password)) {
                         // Success Notification
                         $this->Flash->success('Profile Successfuly Updated', array(
                             'key' => 'positive',

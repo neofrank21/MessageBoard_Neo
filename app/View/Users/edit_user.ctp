@@ -12,7 +12,8 @@
                             echo $this->Form->input('email', array(
                                 'class' => 'form-control mb-2',
                                 'type' => 'email',
-                                'default' => $userData['User']['email']
+                                'default' => $userData['User']['email'],
+                                'required' => false
                             ));
                         ?>
                     </div>
@@ -24,7 +25,7 @@
                                 'class'=> 'form-control mb-2',
                                 'type'=> 'password',
                                 'placeholder' => 'New Password',
-                                'default'=> $userData['User']['password']
+                                'required' => false
                             ));
                         ?>
                     </div>
@@ -36,7 +37,7 @@
                                 'class'=> 'form-control',
                                 'type'=> 'password',
                                 'placeholder'=> 'Confirm New Password',
-                                'default'=> $userData['User']['password']
+                                'required' => false
                             ));
                         ?>
                     </div>
